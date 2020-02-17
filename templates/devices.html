@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% block title %}
+  Devices
+{% endblock %}
+
+{% block devices %}
+
+<br>
+<div class="container">
+<br>
+  <table class="table table-hover" id="tbl-cntr_">
+
+    <thead>
+      <tr><label>Registered Devices:</label>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Device ID:</th>
+            <th scope="col">IP:</th>
+            <th scope="col">STATUS:</th>
+            <th scope="col">Gateway Web:</th>
+            <th scope="col">DELETE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for coll in device %}
+      <tr class="tbl_tr">
+        <th scope="row">{{ loop.index }}</th>
+        <td>
+          <p class="badge badge-primary"><i class="fas fa-band-aid fa-3x"></i></p><br>
+          <a href="{{coll}}" class="badge badge-light"><span class='coll_id'>{{ coll['_id']}}</span></a>
+          <!-- <a href="http://192.168.1.74/mongoRec/{{collections}}">{{collections}}</a> -->
+        </td>   
+       <td>
+          <p class="badge badge-light">{{ coll['extra']}}</p>
+          <!-- <a href="http://192.168.1.74/mongoRec/{{collections}}">{{collections}}</a> -->
+        </td>
+       
+        <td class='success_error'>
+          <!-- <p class="badge badge-success"><i class="fas fa-laugh-wink fa-3x"></i></p> -->
+          <p class="badge badge-secondary"><i class="fas fa-sad-tear fa-3x"></i></p>
+        </td>
+        <td><a href="http://{{ coll['extra']}}:5000" class="badge badge-success">Access</a></td>
+        <td><a href="/delDevice/{{coll['_id']}}" class="badge badge-danger">Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<br>
+
+
+
+
+
+
+
+{% endblock %}
