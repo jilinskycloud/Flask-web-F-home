@@ -35,6 +35,7 @@ from _include.dbClasses import mongodb as _mongodb
 from _include.dbClasses import redisdb as _redis
 import base64
 import urllib
+import hashlib
 
 
 app = Flask(__name__)
@@ -396,23 +397,29 @@ def sendcmd(name=None):
 # UPDATE ADMIN DETAILS
 @app.route('/editProfile/', methods=['GET', 'POST'])
 def editProfile():
-    error = None
-    data = []
-    rec=[]
-    if 'username' in session:
-        if request.method == 'POST':
-            print("Posted********************************************")
-            data.append(request.form['name'])
-            data.append(request.form['pass'])
-            print(data)
-            print(_mysql.editProfile_(mysql, data))
-            rec = _mysql.show_(mysql)
-            print(rec)
-        rec = _mysql.show_(mysql)
-        print(rec)
-        return render_template('editProfile.html', error=error, data=data, rec=rec)
-    else:
-        return redirect(url_for('login'))
+	error = None
+	data = []
+	rec=[]
+	if 'username' in session:
+		if request.method == 'POST':
+			print("Posted********************************************")
+			data.append(request.form['name'])
+			passw = request.form['pass'].encode('utf-8')
+			salt = "skycloud".encode('utf-8')
+			h = hashlib.new('sha256')
+			h.update(salt)
+			h.update(passw)
+			passw = h.hexdigest()
+			data.append(passw)
+			print(data)
+			print(_mysql.editProfile_(mysql, data))
+			rec = _mysql.show_(mysql)
+			print(rec)
+		rec = _mysql.show_(mysql)
+		print(rec)
+		return render_template('editProfile.html', error=error, data=data, rec=rec)
+	else:
+		return redirect(url_for('login'))
 
 # LOGIN PAGE
 @app.route('/login', methods=['GET', 'POST'])
