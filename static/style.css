@@ -60,11 +60,17 @@ html, body {
     text-align: center;
 }
 
-.badge-secondary {
-    background-color: #1d9008 !IMPORTANT;
-}
+
 #sendcmd_{
     background-color: #eaeaea;
     /* margin: auto; */
     padding: 36px;
+}
+
+.fa-laugh-wink{
+    background-color: #1d9008 !IMPORTANT;
+}
+
+.fa-sad-tear{
+    background-color: #ff0018 !IMPORTANT;
 }

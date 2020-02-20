@@ -18,7 +18,7 @@ class mongodb:
 			data_[key.decode("utf-8")] = value.decode("utf-8") 
 		#print("here im in mongo db hehehehehehe")
 		print(data_)
-		r_dat = { '_Did' :data_['_uuid'], '_mac' : data_['_mac'], '_rssi':data_['_rssi'], '_adv':data_['_adv'], '_maj':data_['_maj'], '_min':data_['_min'], '_tx':data_['_tx'] }
+		r_dat = { '_Did' :data_['_uuid'], '_mac' : data_['_mac'], '_rssi':data_['_rssi'], '_adv':data_['_adv'], '_maj':data_['_maj'], '_min':data_['_min'], '_tx':data_['_tx'], '_sr':data_['_sr'], '_times':data_['_times'] }
 		print(r_dat)
 		#r_dat = { '_Did' :data_['_id'], '_ip' :data_['_ip'], '_mac' : data_['_mac'], '_rssi':data_['_rssi'], '_ext':data_['_ext'], '_b' : 0, '_c' : 0 }    
 		result=db.ble.insert_one(r_dat).inserted_id
@@ -194,12 +194,13 @@ class redisdb:
 			if(s != 1):
 				print(s.decode("utf-8")) 
 
-	def create_(data):
+	def create_(data,pro):
 		#print("-----------------------------------------------ssssssssssssssss\n")
 		
 		#print(type(data))
 		#print(data)
-		data = json.loads(data)
+		if pro == "mqtt":
+			data = json.loads(data)			
 		#print(type(data))
 		print(data)
 		'''
@@ -215,11 +216,13 @@ class redisdb:
 		print(_id)
 		print(_mac)
 		'''
-		tm_k = time.time()
+		tm_k1 = str(time.time())
+		tm_k = data['sr_no']+tm_k1
+		print(tm_k)
 		s_key_n = 's_'+str(tm_k)
 		print(tm_k)
 		print(s_key_n)
-		r.hmset(tm_k, {'_uuid':data['uuid'], '_mac':data['mac'], '_rssi':data['rssi'], '_adv':data['adv'], '_tx':data['tx'], '_maj':data['maj'], '_min':data['mina']})
+		r.hmset(tm_k, {'_uuid':data['uuid'], '_mac':data['mac'], '_times':tm_k1, '_rssi':data['rssi'], '_adv':data['adv'], '_tx':data['tx'], '_maj':data['maj'], '_min':data['mina'], '_sr':data['sr_no']})
 		#print(r.hgetall(tm_k))
 		r.hset(s_key_n, 1,'val')
 		r.expire(s_key_n, 10)

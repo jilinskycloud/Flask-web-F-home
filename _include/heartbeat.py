@@ -59,7 +59,8 @@ class MQTT_:
 			dp = dec(nonce, ciptext, tag)
 			print("00000",dp)
 			'''
-			_redis.create_(assi)
+			pro = "mqtt"
+			_redis.create_(assi,pro)
 			print("==================================================================================================")
 			#r = requests.get('http://192.168.1.74:5000/mqtt-console/', params='abc')
 			#print(r.text)
@@ -163,10 +164,10 @@ def data_split(data):
 
 
 class HTTP_:
-	def connect_(http_data, app, _redis):
+	def connect_(http_data, app, _redis,pro):
 		print("This Message is from HTTP Heartbeat file ......")
 		print(http_data)
-		_redis.create_(http_data)
+		_redis.create_(http_data,pro)
 
 
 class heartBeat_:

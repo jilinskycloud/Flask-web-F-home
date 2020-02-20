@@ -44,14 +44,14 @@
       <tr>
         <th scope="row">{{ loop.index }}</th>
         <td>
-          <a href="http://192.168.1.74:5000/mongoRec/{{coll}}" class="badge badge-light">{{ coll[1]}}</a>
-          <!-- <a href="http://192.168.1.74/mongoRec/{{collections}}">{{collections}}</a> -->
+          <!-- <a href="http://192.168.1.74:5000/mongoRec/{{coll}}" class="badge badge-light">{{ coll[1]}}</a> -->
+          <span class="badge badge-light">{{ coll[1]}}</span>
         </td>
         <td>
-          <a href="http://192.168.1.74:5000/mongoRec/{{coll}}" class="badge badge-light">{{ coll[2]}}</a>
-          <!-- <a href="http://192.168.1.74/mongoRec/{{collections}}">{{collections}}</a> -->
+          <!-- <a href="http://192.168.1.74:5000/mongoRec/{{coll}}" class="badge badge-light">{{ coll[2]}}</a> -->
+          <span class="badge badge-light">{{ coll[2]}}</span>
         </td>
-        <td><a href="http://192.168.1.74:5000/delProfile/{{coll[0]}}" class="badge badge-danger">Delete</a></td>
+        <td><a href="/delProfile/{{coll[0]}}" class="badge badge-danger">Delete</a></td>
       </tr>
       {% endfor %}
     </tbody>

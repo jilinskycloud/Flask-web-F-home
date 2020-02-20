@@ -34,6 +34,7 @@ from _include.dbClasses import mysqldb as _mysql
 from _include.dbClasses import mongodb as _mongodb
 from _include.dbClasses import redisdb as _redis
 import base64
+import urllib
 
 
 app = Flask(__name__)
@@ -87,41 +88,31 @@ def mongoRec(collname):
 def http_test():
 	if request.method == 'POST':
 		nonce = request.form['nonce']
-		ciptext = request.form['ciptext']
+		ciptext = request.form['ciphertext']
 		tag = request.form['tag']
-		print(nonce)
-		print(tag)
-		print(ciptext)
-		ciptext = bytes.fromhex(ciptext)
-		tag = bytes.fromhex(tag)
-		nonce = bytes.fromhex(nonce)
 		print("666666666666666666666666666666666666666666666666666666666666666666666666666666666666666")
-		print(type(nonce))
-		print(type(tag))
-		print(type(ciptext))
-		ble_data = dec(nonce, ciptext, tag)
+		ble_data = dec(base64.b64decode(nonce), base64.b64decode(ciptext), base64.b64decode(tag))
+		ble_data = json.loads(ble_data.decode('utf-8'))
+		#print("--------------------",ble_data['mac'])
 		print(ble_data)
-		print("-_-")
-		if len(ble_data) == 7:
-			_http.connect_(ble_data,app,_redis)
-			print("data length", len(ble_data))
-		else:
-			print("data length not right")
-		if(ble_data):
-			print("Data Received........")
-			print(ble_data)
-			print(len(ble_data))
-			return 'success'
+		print(type(ble_data))
+		pro = "http"
+		_http.connect_(ble_data,app,_redis,pro)
+		print("Data Received........")
+		return 'success'
 	return 'No success'
 
 def dec(nonce, ciptext, tag):
-	key = b'\xa5}\x9a\xee\xf1Q\x1e\x93\x18\xb6\xc9\t\x1c&\xad\x05'
+	f = open('/var/www/webs/flask_web/config.txt', 'r')
+	key = f.read()
+	f.close()
+	key = base64.b64decode(key)
 	cipher = AES.new(key, AES.MODE_EAX, nonce)
-	print("new errrrrrrrrrrrrrrr-!!!!!!!!")
-	print(type(tag))
-	print(type(ciptext))
+	#print("new errrrrrrrrrrrrrrr-!!!!!!!!")
 	data = cipher.decrypt_and_verify(ciptext, tag)
-	return data_split(data)
+	#print(data)
+	return data
+	#return data_split(data)
 
 def data_split(data):
 	a = data.decode()
