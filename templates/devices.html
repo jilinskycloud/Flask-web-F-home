@@ -5,13 +5,48 @@
 
 {% block devices %}
 
-<br>
-<div class="container">
-<br>
-  <table class="table table-hover" id="tbl-cntr_">
+  <script type="text/javascript">
+  setInterval(function(){
+      $.ajax({
+            url: '/status',
+            type: "post",
+       
+            success: function (m) {
+              console.log(m);
+    
+              for(var i=0;i<$(".tbl_tr").length;i++){
 
+                //console.log($(".tbl_tr").find(".coll_id").eq(i));
+                 var each_index = m.indexOf($(".tbl_tr").find(".coll_id").text());
+                 //have
+                 //console.log(each_index);
+                 $(this).parents('.tbl_tr').find('.success_error').empty();
+                 if(m.indexOf($(".tbl_tr").find(".coll_id").eq(i).text()) != -1){
+                  //console.log("Green",$(".tbl_tr").find(".badge-secondary").children())
+                    $(".tbl_tr").find(".badge-sec").children().eq(i).removeClass();
+                    $(".tbl_tr").find(".badge-sec").children().eq(i).addClass("fas fa-laugh-wink fa-3x happy");
+                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-success'><i class='fas fa-laugh-wink fa-3x'></i></p>");
+                 }else{
+                  //console.log("Red",$(".tbl_tr").find(".badge-secondary").children())
+                    $(".tbl_tr").find(".badge-sec").children().eq(i).removeClass();
+                    $(".tbl_tr").find(".badge-sec").children().eq(i).addClass("fas fa-sad-tear fa-3x sad");
+                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-secondary'><i class='fas fa-sad-tear fa-3x'></i></p>");
+                 }
+              }
+            },         
+           error: function () { console.log("Not Connected!"); }, //If the pop-up window pops up, it means that the server path is wrong, or the server is wrong, or the server does not return the specified json data format
+      });
+      //$('table #tm').load('/status');
+ },10000);
+</script>
+
+<div class="container-fluid" id="_devices">Registered Devices /</div>
+
+
+<br>
+<div class="container-fluid">
+  <table class="table table-hover" id="tbl-cntr_">
     <thead>
-      <tr><label>Registered Devices:</label>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Device ID:</th>
@@ -27,7 +62,8 @@
         <th scope="row">{{ loop.index }}</th>
         <td>
           <p class="badge badge-primary"><i class="fas fa-band-aid fa-3x"></i></p><br>
-          <a href="{{coll}}" class="badge badge-light"><span class='coll_id'>{{ coll['_id']}}</span></a>
+          <span>{{ coll['_id']}}</span>
+          <a href="{{coll}}" class="badge badge-light" style="display: none;"><span class='coll_id'>{{ coll['_id']}}</span></a>
           <!-- <a href="http://192.168.1.74/mongoRec/{{collections}}">{{collections}}</a> -->
         </td>   
        <td>
@@ -37,10 +73,10 @@
        
         <td class='success_error'>
           <!-- <p class="badge badge-success"><i class="fas fa-laugh-wink fa-3x"></i></p> -->
-          <p class="badge badge-secondary"><i class="fas fa-sad-tear fa-3x"></i></p>
+          <p class="badge badge-sec"><i class="fas fa-sad-tear fa-3x sad"></i></p>
         </td>
-        <td><a href="http://{{ coll['extra']}}:5000" class="badge badge-success">Access</a></td>
-        <td><a href="/delDevice/{{coll['_id']}}" class="badge badge-danger">Delete</a></td>
+        <td><a href="http://{{ coll['extra']}}:5000" class="badge badge-success"><i class="fas fa-globe fa-2x"></i></a></td>
+        <td><a href="/delDevice/{{coll['_id']}}" class="badge badge-danger"><i class="far fa-trash-alt fa-2x"></i></a></td>
       </tr>
       {% endfor %}
     </tbody>

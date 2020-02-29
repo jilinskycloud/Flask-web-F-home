@@ -1,21 +1,21 @@
 {% extends 'layout.html' %}
 {% block config %}
+<div class="container-fluid" id="_devices">Gateway Configuration /</div>
 <br>
-<div class="container" id="setup_page">
-  <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;Gateway Configuration</label><br><br>
-<form class="container" action = "/setup/" method = "POST">
+<div class="container-fluid" id="setup_page">
+<form class="container-fluid" action = "/setup/" method = "POST">
 	<div class="form-row">
          <div class="col-md-4">
-        <label for="exampleInputEmail1">Server Socket:</label>
+        <h6>Server Socket:</h6>
           <input type="text" name="server_socket" class="form-control" placeholder="i.e. 127.0.0.1:5000 ">
       </div>
 		<div class="col-md-4">
-          <label for="exampleInputEmail1">Cache Size</label>
+          <h6>Cache Size</h6>
 			<input type="text" name="cache_size" class="form-control" placeholder="i.e. 12">
 		</div>
 
 		<div class="col-md-4">
-      <label for="exampleInputEmail1">RSSI Range</label>
+      <h6>RSSI Range</h6>
 			<input type="text" name="rssi_range"class="form-control" placeholder="-50 | -90">
 		</div>
 
@@ -24,15 +24,15 @@
 
     <div class="form-row">
             <div class="col-md-4">
-          <label for="exampleInputEmail1">Serial No:</label>
+          <h6>Serial No:</h6>
           <input type="text" name="serial_no" class="form-control" placeholder="0000000001">
       </div>
       <div class="col-md-4">
-        <label for="exampleInputEmail1">User Name:</label>
+        <h6>User Name:</h6>
         <input type="text" name="gw_uname" class="form-control" placeholder="admin ">
       </div>
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Password:</label>
+          <h6>Password:</h6>
           <input type="text" name="gw_pass" class="form-control" placeholder="12345">
       </div>
     </div>
@@ -40,14 +40,14 @@
     <div class="form-row">
 <br>
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Interval:</label>
+          <h6>Interval:</h6>
           <input type="text" name="data_interval" class="form-control" placeholder="10 sec">
       </div>
     </div>
  <br>
 <div class="form-row">
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Sniffer Type:</label>
+          <h6>Sniffer Type:</h6>
     <select class="form-control" name="sniffer_type" id="exampleFormControlSelect1" placeholder="Select">
       <option selected="">----</option>
       <option>IBeacon</option>
@@ -59,7 +59,7 @@
 <br>
 <div class="form-row">
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Heart Beat:</label>
+          <h6>Heart Beat:</h6>
     <select class="form-control" name="heart_beat" id="exampleFormControlSelect1" placeholder="Select">
       <option selected="">----</option>
       <option>on</option>
@@ -71,7 +71,7 @@
 <br>
 <div class="form-row">
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Post Data:</label>
+          <h6>Post Data:</h6>
     <select class="form-control" name="enable_post_data" id="exampleFormControlSelect1" placeholder="Select">
       <option selected="">----</option>
       <option>on</option>
@@ -84,7 +84,7 @@
 
 <div class="form-row">
       <div class="col-md-4">
-          <label for="exampleInputEmail1">Protocol</label>
+          <h6>Protocol</h6>
     <select class="form-control" name="protoc" id="exampleFormControlSelect1" placeholder="Select">
       <option selected="">----</option>
       <option>MQTT</option>
@@ -95,7 +95,7 @@
 <br>
 	<fieldset disabled>
     	<div class="form-group">
-      		<label for="disabledTextInput">Public Key</label>
+      		<h6>Public Key</h6>
       		<input type="text" id="disabledTextInput" class="form-control" name="pubkey" value="/check/public.key" placeholder="/check/public.key">
     	</div>
   	</fieldset>
@@ -103,5 +103,5 @@
 <br>
 </form>
 <br>
-{% endblock %}
 </div>
+{% endblock %}

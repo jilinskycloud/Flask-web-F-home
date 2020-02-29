@@ -17,7 +17,7 @@ import pymongo
 from pymongo import MongoClient
 from OpenSSL import SSL
 import pprint
-from flask_fontawesome import FontAwesome
+#from flask_fontawesome import FontAwesome
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
@@ -36,11 +36,13 @@ from _include.dbClasses import redisdb as _redis
 import base64
 import urllib
 import hashlib
+from bson import json_util
+import math
 
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-fa = FontAwesome(app)
+#fa = FontAwesome(app)
 db    = _mongodb.initMongo_(MongoClient, pymongo)
 mysql = _mysql.initMysql_(MySQL, app)
 # ===================MQTT FUNCTIONS===========================
@@ -77,13 +79,63 @@ def delRec_(collname=None, _id=None):
     print("------------cursor testing---------------")
     collections = _mongodb.delRec_(collname, db, _id)
     return redirect(url_for('mongoRec',collname=collname ))
-
-@app.route('/mongoRec/<collname>')                       # Show Collection
+'''
+@app.route('/mongoRec/<collname>', methods=['GET'])                       # Show Collection
 def mongoRec(collname):
-    print(collname)
-    rec = _mongodb.showRec_(collname, db)
-    print("------------cursor testing---------------")
-    return render_template("mongoRec.html", coll=rec, collname=collname)
+	print(collname)
+	rec = _mongodb.showRec_(collname, db)
+	print("------------cursor testing---------------")
+	return render_template("mongoRec.html", coll=rec, collname=collname)
+'''
+
+# ===================Pagination FUNCTIONS==========================
+# ===================--------------------==========================
+# ===================--------------------==========================
+
+
+                   
+@app.route('/mongoRec/<collname>')
+def mongoRec(collname=None):
+	print("---------------Show Records -MongoDb---------------")
+	if collname == 'ble':
+		return render_template("mongoRec.html", colname=collname)
+	elif collname == "devices":
+		return redirect(url_for('devices'))
+	#pprint.pprint(db.collname.find_one())
+	#print(collname)
+	#rec_ = db[collname].find()
+	#return render_template("mongoRec123.html") #, coll=rec_, collname=collname)
+
+@app.route('/get_mongoRec')
+def get_mongoRec():
+	client = MongoClient("mongodb://localhost:27017/")
+	db = client.ble_data 
+	page_no = 1
+	if request.args.get('page'):
+		print("yes")
+		page_no = int(request.args.get('page'))
+	print("This is the Page Number ::", page_no)
+	record_per_page = 10
+	start_from = (page_no - 1) * record_per_page
+	print("start from value is ::", start_from)
+	collname = 'ble'
+	end_from = start_from+record_per_page
+	rec_ = db[collname].find().skip(start_from).limit(record_per_page)
+	total_rec_ =  db[collname].find().count()
+	total_pages = math.ceil(total_rec_/record_per_page)
+	print("Total number of pages :: ",total_pages)
+	rec_1 = [json.dumps(item, default=json_util.default) for item in rec_]
+	print("---------------Show Records -MongoDb---------------")
+	dat = {1: rec_1, 2: total_pages} 
+	return jsonify(dat)
+# ===================--------------------==========================
+# ===================--------------------==========================
+# ===================--------------------==========================
+# ===================--------------------==========================
+# ===================--------------------==========================
+# ===================--------------------==========================
+
+
 # ===================HTTPLIB2 FUNCTIONS==========================
 @app.route('/http_test', methods=['GET', 'POST'])
 def http_test():

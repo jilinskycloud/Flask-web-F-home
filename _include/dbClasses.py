@@ -91,6 +91,17 @@ class mongodb:
 		print("---------------Show Records -MongoDb---------------")
 		return rec_
 
+	def showRec_123(collname, db, pymongo, limit, offset):
+		pprint.pprint(db.collname.find_one())
+		print(collname)
+		starting_id = db[collname].find().sort("_id", pymongo.ASCENDING)
+		last_id = starting_id[offset]['_id']
+
+
+		rec_123 = db[collname].find({'_id': {'$gte': last_id} }).sort("_id", pymongo.ASCENDING).limit(limit)
+		print("---------------Show Records -MongoDb---------------")
+		return rec_123
+
 
 #------------------------------------------MYSQL CLASS
 class mysqldb:

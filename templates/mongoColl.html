@@ -1,13 +1,12 @@
 {% extends 'layout.html' %}
 {% block mongorec %}
-
-<div class="container" style="padding: 5px;">
-	<br>
+<div class="container-fluid" id="_devices">DataBase Collections /</div>
 
 
 <br>
-<h3>Manual Insert:</h3>
-<form class="container" action = "/showColl_" method = "POST">
+<div class="container-fluid" >
+<h3>Insert Record:</h3>
+<form class="container-fluid" action = "/showColl_" method = "POST">
 	<div class="form-row">
 
 
@@ -61,20 +60,20 @@
     	</div>
   	</div>
 <br>
-    <button type="submit" class="btn btn-primary">Submit Data</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
 <br>
 </form>
 <br>
 
 <br>
-	<table class="table table-hover">
+	<table class="table table-hover" id="_mongocoll">
 
 		<thead>
 			<tr><h3>Collections List:</h3></tr>
     		<tr>
       			<th scope="col">#</th>
       			<th scope="col">Collection Name</th>
-      			<th scope="col">EDIT</th>
+      			<!-- <th scope="col">EDIT</th> -->
       			<th scope="col">DELETE</th>
     		</tr>
   		</thead>
@@ -94,8 +93,8 @@
 				  {% endif %}
         </td>
         
-				<td><a href="#" class="badge badge-primary">Edit</a></td>
-				<td><a href="/del_coll/{{coll}}" class="badge badge-danger">Delete</a></td>
+				<!-- <td><a href="#" class="badge badge-primary">Edit</a></td> -->
+				<td><a href="/del_coll/{{coll}}" class="badge badge-danger"><i class="far fa-trash-alt fa-2x"></i></a></td>
 			</tr>
       {% endif %}
 			{% endfor %}
